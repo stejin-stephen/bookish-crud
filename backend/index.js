@@ -69,12 +69,26 @@ app.put('/books/:id', async (req, res) => {
 
         const { id } = req.params;
         const result = await Book.findByIdAndUpdate(id, req.body)
-        console.log('result', result)
 
         if (!result) {
             return res.status(404).json({ message: 'Book not found' })
         }
         return res.status(200).json({ message: 'Book updated' });
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: err.message })
+    }
+});
+
+app.delete('/books/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await Book.findByIdAndDelete(id, req.body)
+
+        if (!result) {
+            return res.status(404).json({ message: 'Book not found' })
+        }
+        return res.status(200).json({ message: 'Book deleted' });
     } catch (err) {
         console.error(err)
         res.status(500).json({ message: err.message })
